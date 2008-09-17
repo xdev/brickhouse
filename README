@@ -2,7 +2,25 @@ Brickhouse is yet another PHP MVC framework, built by Brick Design for our clien
 
 We're still wrapping this up for a general 1.0 release, so stay tuned.
 
-== .htaccess ==
+== Setup Instructions ==
+
+=== Example Filesystem ==
+
+document_root/
+    .htaccess  (sample .htaccess included in README)
+    app/  (copy from 'Blackbird/_example_app' for quick startup)
+        bootstrap.php
+        config/
+        controllers/
+        models/
+        plugins/
+        views/
+    index.php
+    lib/
+        Bobolink/
+        Brickhouse/
+
+=== Example .htaccess ===
 
 <<<<
 
