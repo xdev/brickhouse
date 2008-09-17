@@ -1,0 +1,33 @@
+Brickhouse is yet another PHP MVC framework, built by Brick Design for our clients and made available to you!
+
+We're still wrapping this up for a general 1.0 release, so stay tuned.
+
+== .htaccess ==
+
+<<<<
+
+<IfModule mod_rewrite.c>
+
+RewriteEngine On
+RewriteBase /
+
+# Remove trailing slashes for dynamic pages
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)/$ $1 [L,R]
+
+# Prevent HTTP access to protected directories
+RewriteRule ^(.*)\.svn/(.*)$ . [F]
+RewriteRule ^(.*)\.git/(.*)$ . [F]
+RewriteRule ^app$ . [F]
+RewriteRule ^lib$ . [F]
+
+# Redirect all dynamic requests to index.php file
+RewriteCond %{REQUEST_FILENAME} !favicon\.ico
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . index.php [L,QSA]
+
+</IfModule>
+
+>>>>
