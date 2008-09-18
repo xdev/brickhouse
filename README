@@ -15,7 +15,7 @@ document_root/
         models/
         plugins/
         views/
-    index.php
+    index.php  (sample index.php included in README)
     lib/
         Bobolink/
         Brickhouse/
@@ -47,5 +47,16 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.php [L,QSA]
 
 </IfModule>
+
+>>>>
+
+=== Example index.php ===
+
+<<<<
+
+<?php
+
+// Path to application's bootstrap.php file
+include 'app/bootstrap.php';
 
 >>>>
