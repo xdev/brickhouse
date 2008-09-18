@@ -4,24 +4,23 @@ class Controller
 {
 
 	protected $route;
+	protected $front;
 	protected $model;
-	protected $db;
 	protected $layout_view;
 	protected $layout_data;
 	protected $layout_file;
 	protected $output;
 	protected $view_data;
 		
-	function __construct($route,$db)
+	function __construct($route)
 	{
 		$this->route = $route;
-		$this->db = $db;
 		$this->view = $this->route['action'];
 		//auto load that son
 		$file = MODELS . ucfirst($this->route['controller']) . 'Model.php';
 		if(file_exists($file) && require_once $file){
 			$c = ucfirst($this->route['controller']) . 'Model';
-			$this->model = new $c($this->db);
+			$this->model = new $c();
 			//$this->model = call_user_func($c . '::getInstance');
 		}
 		

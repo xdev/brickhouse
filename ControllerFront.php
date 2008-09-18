@@ -3,20 +3,49 @@
 class ControllerFront
 {
 
-	private static $instance = null;
-	private static $requestUri;
-	private static $requestA;
-	private static $db;
+	protected static $instance = null;
+	protected static $requestUri;
+	protected static $requestA;
 
 	private function __construct()
 	{
+		self::setUri();								
+	}
+	
+	public static function setUri()
+	{
+		//mix and match, gets the job done, should be cleaned up
+		
 		self::$requestUri = ($qsa = strpos($_SERVER['REQUEST_URI'],'?')) ? substr($_SERVER['REQUEST_URI'],0,$qsa) : $_SERVER['REQUEST_URI'];
 		self::$requestA = array_slice(explode('/',self::$requestUri),1);
-	}
-
-	public static function setDb($database)
-	{
-		self::$db = $database;
+		
+		
+		//setConfig("CMS_ROOT",substr($_SERVER['PHP_SELF'],0,-strlen('index.php')));
+		
+		//script name = last item in array
+		$a = explode("/",$_SERVER['PHP_SELF']);
+		$t = $a[count($a)-1];
+		
+		/*
+		if(isset($_SERVER["HTTP_REFERER"])){
+			$this->refA = explode("/",$_SERVER["HTTP_REFERER"]);
+			$t = array_search($_SERVER['SERVER_NAME'],$this->refA);
+			$this->refA = array_slice($this->refA, ($t+1));
+		}
+		*/
+		
+		$tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen($t) + 1)));
+		define('WEB',substr($_SERVER['PHP_SELF'],0,-strlen($t)));
+		if($tA[0] != ''){
+			array_splice(self::$requestA,0,count($tA));
+			/*
+			if(isset($this->refA)){
+				$this->refA = array_slice($this->refA,count($tA)); 
+			}
+			*/
+		}
+		
+		self::$requestUri = '/' . join('/',self::$requestA);
 	}
 
 	public static function getInstance()
@@ -46,7 +75,7 @@ class ControllerFront
 				//format the file name of the controller - camel case, append Controlller
 				$name = ucfirst($route['controller']) . 'Controller';
 				$file = CONTROLLERS . $name . '.php';
-
+								
 				if(file_exists($file) && require_once $file){
 
 					//action
@@ -56,7 +85,7 @@ class ControllerFront
 					}
 
 					$action = ucfirst($action);
-					$controller = new $name($route,self::$db);
+					$controller = new $name($route);
 
 					//could force index to always exist by using an interface or abstract class
 					//however, this needs to be here to catch human error in a route

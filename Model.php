@@ -2,7 +2,6 @@
 
 class Model
 {	
-	private $db;
 	//private static $instance = null;
 	
 	/*
