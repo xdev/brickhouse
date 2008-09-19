@@ -1,28 +1,23 @@
 <?php
 
-//auto mapping, action specified for thoroughness
+// Default controller & action
+$routes[] = array('uri' => "//");
 
-//index
-$router[] = array('route'=>"^/$",'controller'=>DEFAULT_CONTROLLER,'action'=>DEFAULT_ACTION);
+// Specified controller & default action
+$routes[] = array('uri' => "/(?<controller>[a-z0-9]+)/");
 
-//controller
-if(count($uri) == 1){
-	$router[] = array('route'=>"^/" . $uri[0] . "$",'controller'=>$uri[0],'action'=>DEFAULT_ACTION);
-}
+// Specified controller & action
+$routes[] = array('uri' => "/(?<controller>[a-z0-9]+)\/(?<action>[a-z0-9]+)/");
 
-//controller+action
-if(count($uri) == 2){
-	$router[] = array('route'=>"^/" . $uri[0] . "/" . $uri[1] . "$",'controller'=>$uri[0],'action'=>$uri[1]);
-}
+/* USER DEFINED ROUTES --------------------------------------------------- */
 
+// Sample additional arguments to specific controller/action
+//$routes[] = array('uri' => "/(?<controller>blog)\/(?<action>archive)\/(?<id>[0-9]+)/");
 
-//advanced pattern matching
-//$router[] = array('route'=>"^/blog/archive/([0-9]+)/([0-9]+)$",'controller'=>'blog','action'=>'archive');
-
-//optional override
-//$router[] = array('route'=>"^/blog/index/(.*)",'controller'=>'blog','action'=>'index');
-
-//controller/action override
-//$router[] = array('route'=>"^/gateway$",'controller'=>'xml','action'=>'data');
-
-//user defined routes
+// Sample controller override
+/*
+$routes[] = array(
+	'uri' => "/(blog)\/(?<action>archive)\/(?<id>[0-9]+)/",
+	'controller' => 'actual_blog_controller'
+);
+*/

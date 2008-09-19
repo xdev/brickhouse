@@ -68,14 +68,14 @@ if (isset($GLOBALS['DATABASE'])) {
 
 // Controller
 $controller = ControllerFront::getInstance();
-if (isset($db)) $controller->setDb($db);
+//if (isset($db)) $controller->setDb($db);
 
 // Router
 //needs to follow the Front Controller so we can utilize the pre-parsed URI
 $uA = $controller->getUri();
 $uri = $uA['array'];
 
-$router = array();
+$routes = array();
 
 //pull in predefined routes
 require_once CONFIG . 'routes.php';
@@ -85,16 +85,16 @@ $q = plugin__sitemap(array('uri'=>$uri,'table'=>'pages','parent_id'=>'parent_id'
 
 if(is_array($q)){
 	//overrite existing route to prevent error, could be written simpler if using pattern as array key, later perhaps
-	for($i=0;$i<count($router);$i++){
+	for($i=0;$i<count($routes);$i++){
 		if($router[$i]['route'] == "^" . $uA['string'] . "$"){
-			array_splice($router,$i,1);
+			array_splice($routes,$i,1);
 		}
 	}
 	//this is custom for this instance, so use controller and action info from the db, not the config
-	$router[] = array('route'=>"^" . $uA['string'] . "$",'controller'=>$q['controller'],'action'=>$q['action']);
+	$routes[] = array('route'=>"^" . $uA['string'] . "$",'controller'=>$q['controller'],'action'=>$q['action']);
 }
 
 
 /* DISPATCH -------------------------------------------------------------- */
 
-$controller->dispatch($router);
+$controller->dispatch($routes);

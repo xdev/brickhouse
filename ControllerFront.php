@@ -9,7 +9,7 @@ class ControllerFront
 
 	private function __construct()
 	{
-		self::setUri();								
+		self::setUri();
 	}
 	
 	public static function setUri()
@@ -61,72 +61,102 @@ class ControllerFront
 	{
 		return array('string'=>self::$requestUri,'array'=>self::$requestA);
 	}
+	
+	public static function getRoute($routes=array())
+	{
+		// Default routes
+		// Default controller & action
+		$routes[] = array('uri' => "//");
+		// Specified controller & default action
+		$routes[] = array('uri' => "/(?<controller>[a-z0-9]+)/");
+		// Specified controller & action
+		$routes[] = array('uri' => "/(?<controller>[a-z0-9]+)\/(?<action>[a-z0-9]+)/");
+		
+		// Prep variables
+		$routes = array_reverse($routes);
+		$match = array();
+		$uri = substr(self::$requestUri,1);
+		
+		// Try to find a match
+		foreach ($routes as $route) {
+			if (preg_match($route['uri'],$uri,$regs)) {
+				// Make sure controller is set, or use DEFAULT_CONTROLLER
+				if (!isset($regs['controller'])) {
+					$regs['controller'] = isset($route['controller']) ? $route['controller'] : DEFAULT_CONTROLLER;
+				}
+				// Make sure action is set, or use DEFAULT_ACTION
+				if (!isset($regs['action'])) {
+					$regs['action'] = isset($route['action']) ? $route['action'] : DEFAULT_ACTION;
+				}
+				// Make sure match is exact
+				if ($regs[0] == $uri) $match = $regs;
+			}
+		}
+		
+		return $match;
+	}
 
 
 	//needs to do the dispatching here so we can grab entire output and filter with a pre and post render plugin
-	public static function dispatch($router)
+	public static function dispatch($routes)
 	{
-
+		
 		$output = '';
-
-		foreach($router as $route){
-			if(ereg($route['route'],self::$requestUri,$regs)){
-
-				//format the file name of the controller - camel case, append Controlller
-				$name = ucfirst($route['controller']) . 'Controller';
-				$file = CONTROLLERS . $name . '.php';
-								
-				if(file_exists($file) && require_once $file){
-
-					//action
-					$action = DEFAULT_ACTION;
-					if(isset($route['action'])){
-						$action = $route['action'];
-					}
-
-					$action = ucfirst($action);
-					$controller = new $name($route);
-
-					//could force index to always exist by using an interface or abstract class
-					//however, this needs to be here to catch human error in a route
-					if(method_exists($controller,$action)){
-						$controller->$action();
-						$output .= $controller->render();
-
-						if(function_exists('plugin__pre_render')){
-							$output = plugin__pre_render($output);
-						}                  
-
-						print $output;
-
-						if(function_exists('plugin__post_render')){
-							plugin__post_render($output);
-						}
-
-						//stop matching
-						return;
-
-					}else{
-						//action doesn't exist
-						//self::$error->code = 404;
-						ErrorHandler::message($action.' action doesn\'t exist in '.$name);
-					}
-
-				}else{ 
-
-					//self::$error->code = 404;
-					ErrorHandler::message($name.' controller doesn\'t exist');
+		
+		// Find a matching route
+		if ($route = self::getRoute($routes)) {
+			
+			//format the file name of the controller - camel case, append Controlller
+			$name = ucfirst($route['controller']) . 'Controller';
+			$file = CONTROLLERS . $name . '.php';
+			
+			if (file_exists($file) && require_once $file) {
+				
+				//action
+				$action = DEFAULT_ACTION;
+				if(isset($route['action'])){
+					$action = $route['action'];
 				}
-
-
+				
+				$action = ucfirst($action);
+				$controller = new $name($route);
+				
+				//could force index to always exist by using an interface or abstract class
+				//however, this needs to be here to catch human error in a route
+				if (method_exists($controller,$action)) {
+					$controller->$action();
+					$output .= $controller->render();
+					
+					if (function_exists('plugin__pre_render')) {
+						$output = plugin__pre_render($output);
+					}
+					
+					print $output;
+					
+					if (function_exists('plugin__post_render')) {
+						plugin__post_render($output);
+					}
+					
+					//stop matching
+					return;
+					
+				} else {
+					//action doesn't exist
+					//self::$error->code = 404;
+					ErrorHandler::message($action.' action doesn\'t exist in '.$name);
+				}
+				
 			} else {
 				//self::$error->code = 404;
-				//ErrorHandler::message('Router did not match any controllers');
+				ErrorHandler::message($name.' controller doesn\'t exist');
 			}
+			
+		} else {
+			//self::$error->code = 404;
+			//ErrorHandler::message('Router did not match any controllers');
+			ErrorHandler::message('No valid route found!');
 		}
-		//no matches found at all - fail!
-		ErrorHandler::message('No valid route found!');
-
+		
 	}
 
 }
