@@ -62,7 +62,7 @@ class Controller
 	
 	
 	/**
-	 * Fetches a view and preps it for rendering
+	 * Preps and stacks a view for rendering
 	 *
 	 * @return void
 	 * @author Joshua Rudd
@@ -114,12 +114,12 @@ class Controller
 	
 	
 	/**
-	 * Inserts a view snippet within a view
+	 * Fetches view for inclusion in controller data or within another view
 	 *
 	 * @return void
 	 * @author Joshua Rudd
 	 **/
-	protected function snippet($snippet_view,$snippet_data=null)
+	protected function fetchView($snippet_view,$snippet_data=null)
 	{
 		// Set view file
 		$snippet_file = $this->getViewFile($snippet_view);
@@ -130,9 +130,14 @@ class Controller
 		}
 		
 		// Include view snippet
+		ob_start();
 		if (!@include $snippet_file) {
-			ErrorHandler::message($file . '.' . VIEW_EXTENSION . ' not found!');
+			ErrorHandler::message($snippet_file . ' not found!');
 		}
+		$r = ob_get_contents();
+		ob_end_clean();
+		
+		return $r;
 	}
 	
 	
