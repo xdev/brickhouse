@@ -39,10 +39,10 @@ define('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SERVER
 require_once CONFIG . 'environment.php';
 
 // Core MVC framework classes
-require_once LIB . 'BrickHouse' . DS . 'ErrorHandler.php';
-require_once LIB . 'BrickHouse' . DS . 'Model.php';
-require_once LIB . 'BrickHouse' . DS . 'ControllerFront.php';
-require_once LIB . 'BrickHouse' . DS . 'Controller.php';
+require_once LIB . 'Brickhouse' . DS . 'ErrorHandler.php';
+require_once LIB . 'Brickhouse' . DS . 'Model.php';
+require_once LIB . 'Brickhouse' . DS . 'ControllerFront.php';
+require_once LIB . 'Brickhouse' . DS . 'Controller.php';
 
 // Database classes
 require_once LIB . 'Bobolink' . DS . 'database' . DS . 'Db.interface.php';
@@ -50,7 +50,7 @@ require_once LIB . 'Bobolink' . DS . 'database' . DS . 'AdaptorMysql.class.php';
 
 
 /* LOAD PLUGINS ---------------------------------------------------------- */
-require_once LIB . 'BrickHouse' . DS . 'plugins' . DS . 'sitemap.php';
+require_once LIB . 'Brickhouse' . DS . 'plugins' . DS . 'sitemap.php';
 //require_once ROOT . APP . 'plugins' . DS . 'pre_render.php';
 
 
@@ -63,7 +63,7 @@ set_error_handler(array("ErrorHandler","capture"));
 // Only connect to the database if it is configured
 if (isset($GLOBALS['DATABASE'])) {
 	$db = AdaptorMysql::getInstance();
-	$db->sql('SET NAMES utf8');
+	//$db->sql('SET NAMES utf8'); // Should be doing now this directly in AdaptorMysql if DB_CHARSET is set
 }
 
 // Controller

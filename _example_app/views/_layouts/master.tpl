@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=<?= CHARSET ?>"/>
 	<meta http-equiv="imagetoolbar" content="false" />
 	<meta name="MSSmartTagsPreventParsing" content="true" />
 	<meta name="description" content="" />
