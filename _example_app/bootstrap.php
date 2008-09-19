@@ -62,7 +62,7 @@ set_error_handler(array("ErrorHandler","capture"));
 
 // Only connect to the database if it is configured
 if (isset($GLOBALS['DATABASE'])) {
-	$db = new AdaptorMysql();
+	$db = AdaptorMysql::getInstance();
 	$db->sql('SET NAMES utf8');
 }
 
