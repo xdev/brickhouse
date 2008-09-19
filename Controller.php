@@ -20,7 +20,7 @@ class Controller
 		$file = MODELS . ucfirst($this->route['controller']) . 'Model.php';
 		if(file_exists($file) && require_once $file){
 			$c = ucfirst($this->route['controller']) . 'Model';
-			$this->model = new $c();
+			$this->model = new $c($route);
 			//$this->model = call_user_func($c . '::getInstance');
 		}
 		

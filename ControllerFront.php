@@ -35,7 +35,7 @@ class ControllerFront
 		*/
 		
 		$tA = explode("/",substr($_SERVER['PHP_SELF'],1,-(strlen($t) + 1)));
-		define('WEB',substr($_SERVER['PHP_SELF'],0,-strlen($t)));
+		define('BASE',substr($_SERVER['PHP_SELF'],0,-strlen($t)));
 		if($tA[0] != ''){
 			array_splice(self::$requestA,0,count($tA));
 			/*

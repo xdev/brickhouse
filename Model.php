@@ -2,21 +2,13 @@
 
 class Model
 {	
-	//private static $instance = null;
+	protected $db;
+	protected $route;
 	
-	/*
-	private function __construct()
+	public function __construct($route)
 	{
-		
+		$this->route = $route;
+		$this->db = AdaptorMysql::getInstance();
 	}
-	
-	private function __construct()
-	{
-		if(!self::$instance){
-			$c = __CLASS__;
-			self::$instance = new $c();
-		}
-	}
-	*/
 	
 }
