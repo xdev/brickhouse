@@ -63,12 +63,10 @@ set_error_handler(array("ErrorHandler","capture"));
 // Only connect to the database if it is configured
 if (isset($GLOBALS['DATABASE'])) {
 	$db = AdaptorMysql::getInstance();
-	//$db->sql('SET NAMES utf8'); // Should be doing now this directly in AdaptorMysql if DB_CHARSET is set
 }
 
 // Controller
 $controller = ControllerFront::getInstance();
-//if (isset($db)) $controller->setDb($db);
 
 // Router
 //needs to follow the Front Controller so we can utilize the pre-parsed URI

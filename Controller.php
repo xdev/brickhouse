@@ -119,20 +119,20 @@ class Controller
 	 * @return void
 	 * @author Joshua Rudd
 	 **/
-	protected function fetchView($snippet_view,$snippet_data=null)
+	protected function fetchView($view_view,$view_data=null)
 	{
 		// Set view file
-		$snippet_file = $this->getViewFile($snippet_view);
+		$view_file = $this->getViewFile($view_view);
 		
 		// Create variables for view from data array
-		if ($snippet_data) foreach ($data as $dataKey => $dataValue) {
+		if ($view_data) foreach ($view_data as $dataKey => $dataValue) {
 			${$dataKey} = $dataValue;
 		}
 		
 		// Include view snippet
 		ob_start();
-		if (!@include $snippet_file) {
-			ErrorHandler::message($snippet_file . ' not found!');
+		if (!@include $view_file) {
+			ErrorHandler::message($view_file . ' not found!');
 		}
 		$r = ob_get_contents();
 		ob_end_clean();

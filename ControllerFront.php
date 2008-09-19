@@ -66,21 +66,22 @@ class ControllerFront
 	{
 		// Default routes
 		// Default homepage (index)
-		if (!isset($routes['default_home'])) $routes['default_home'] = array('uri' => "//");
+		if (!isset($routes['default_home'])) $routes['default_home'] = array('uri' => "/^\/$/");
 		// Default controller
-		if (!isset($routes['default_controller'])) $routes['default_controller'] = array('uri' => "/^(?<controller>[a-z0-9_-]+)$/i");
+		if (!isset($routes['default_controller'])) $routes['default_controller'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)$/i");
 		// Default controller+action
-		if (!isset($routes['default_controller_action'])) $routes['default_controller_action'] = array('uri' => "/^(?<controller>[a-z0-9_-]+)\/(?<action>[a-z0-9_-]+)$/i");
+		if (!isset($routes['default_controller_action'])) $routes['default_controller_action'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)\/(?<action>[a-z0-9_-]+)$/i");
 		
 		// Prep variables
 		$routes = array_reverse($routes);
-		$uri = substr(self::$requestUri,1);
 		
 		// Try to find a match
 		foreach ($routes as $route) {
-			if (preg_match($route['uri'],$uri,$regs)) {
+			if (preg_match($route['uri'],self::$requestUri,$regs)) {
 				// Make sure match is exact
-				if ($regs[0] == $uri) {
+				if ($regs[0] == self::$requestUri) {
+					// Set key 'uri' with uri match
+					$regs['uri'] = $regs[0];
 					// Make sure controller is set, or use DEFAULT_CONTROLLER
 					if (!isset($regs['controller'])) {
 						$regs['controller'] = isset($route['controller']) ? $route['controller'] : DEFAULT_CONTROLLER;

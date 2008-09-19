@@ -1,11 +1,11 @@
 <?php
 
 // Override default homepage (index)
-//$routes['default_home'] = array('uri' => "//");
+//$routes['default_home'] = array('uri' => "/^\/$/");
 // Override default controller
-//$routes['default_controller'] = array('uri' => "/^(?<controller>[a-z0-9_-]+)$/i");
+//$routes['default_controller'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)$/i");
 // Override default controller+action
-//$routes['default_controller_action'] = array('uri' => "/^(?<controller>[a-z0-9_-]+)\/(?<action>[a-z0-9_-]+)$/i");
+//$routes['default_controller_action'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)\/(?<action>[a-z0-9_-]+)$/i");
 
 /* USER DEFINED ROUTES --------------------------------------------------- */
 
