@@ -49,10 +49,11 @@ define('ERRORS', 'errors');
 /* Database settings format for use in the db.php file:
 
 $GLOBALS['DATABASE'] = array(
-	'host' => '',
-	'user' => '',
-	'pass' => '',
-	'db'   => ''
+	'host'    => 'localhost',
+	'user'    => 'username',
+	'pass'    => 'password',
+	'db'      => 'database',
+	'charset' => 'utf8'
 );
 
 */

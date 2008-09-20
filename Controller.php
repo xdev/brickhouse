@@ -16,13 +16,7 @@ class Controller
 	{
 		$this->route = $route;
 		$this->view = $this->route['action'];
-		//auto load that son
-		$file = MODELS . ucfirst($this->route['controller']) . 'Model.php';
-		if(file_exists($file) && require_once $file){
-			$c = ucfirst($this->route['controller']) . 'Model';
-			$this->model = new $c($route);
-			//$this->model = call_user_func($c . '::getInstance');
-		}
+		$this->model = $this->loadModel();
 		
 		// Init layout defaults
 		$this->layout_view = DEFAULT_LAYOUT;
@@ -116,7 +110,7 @@ class Controller
 	/**
 	 * Fetches view for inclusion in controller data or within another view
 	 *
-	 * @return void
+	 * @return string
 	 * @author Joshua Rudd
 	 **/
 	protected function fetchView($view_view,$view_data=null)
@@ -145,7 +139,7 @@ class Controller
 	/**
 	 * Combines layout and view(s) and prints final output
 	 *
-	 * @return void
+	 * @return string
 	 * @author Charles Mastin
 	 * @author Joshua Rudd
 	 **/
@@ -182,6 +176,30 @@ class Controller
 		ob_end_clean();
 		
 		return $r;
+	}
+	
+	
+	
+	/**
+	 * Loads a model and passes a new instance
+	 *
+	 * @return class
+	 * @author Charles Mastin
+	 * @author Joshua Rudd
+	 **/
+	public function loadModel($model=null)
+	{
+		// Use either the default model (same as Controller name) or the one that is passed
+		$model ? true : $model = ucfirst($this->route['controller']);
+		$file = MODELS . $model . 'Model.php';
+		
+		//auto load that son
+		if (file_exists($file)) {
+			require_once $file;
+			$className = $model . 'Model';
+			return new $className($this->route);
+			//$this->model = call_user_func($c . '::getInstance');
+		}
 	}
 	
 }
