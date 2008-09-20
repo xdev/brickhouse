@@ -19,9 +19,6 @@ define('DEFAULT_LANG', 'en');
 // Character Set (Charset)
 define('CHARSET', 'utf-8');
 
-// Character Set (Charset)
-define('DB_CHARSET', str_replace('-','',CHARSET));
-
 // Default controller called by the framework
 define('DEFAULT_CONTROLLER', 'index');
 
@@ -52,10 +49,11 @@ define('ERRORS', 'errors');
 /* Database settings format for use in the db.php file:
 
 $GLOBALS['DATABASE'] = array(
-	'host' => '',
-	'user' => '',
-	'pass' => '',
-	'db'   => ''
+	'host'    => 'localhost',
+	'user'    => 'username',
+	'pass'    => 'password',
+	'db'      => 'database',
+	'charset' => 'utf8'
 );
 
 */
