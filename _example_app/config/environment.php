@@ -19,9 +19,6 @@ define('DEFAULT_LANG', 'en');
 // Character Set (Charset)
 define('CHARSET', 'utf-8');
 
-// Character Set (Charset)
-define('DB_CHARSET', str_replace('-','',CHARSET));
-
 // Default controller called by the framework
 define('DEFAULT_CONTROLLER', 'index');
 

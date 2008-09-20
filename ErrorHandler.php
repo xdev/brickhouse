@@ -23,18 +23,19 @@ class ErrorHandler
 	public static function message($message=null)
 	{
 		if ($message) self::$messages[] = $message;
-		print $message;
+		print '<div class="error" style="font-family: Georgia; background:#FFCCCC;">' . $message . '</div>';
 	}
 	
 	public static function capture($n, $m, $f, $l)
 	{
-		$r = '';
-		$r .= '<error>'.$n.'</error>';
-		$r .= '<message>'.$m.'</message>';
-		$r .= '<file>'.$f.'</file>';
-		$r .= '<line>'.$l.'</line>';
+		$r = '<dl class="error" style="font-family: Georgia; background:#FFCCCC;">';
+		$r .= '<dt>error</dt><dd>'.$n.'</dd>';
+		$r .= '<dt>message</dt><dd>'.$m.'</dd>';
+		$r .= '<dt>file</dt><dd>'.$f.'</dd>';
+		$r .= '<dt>line</dt><dd>'.$l.'</dd>';
+		$r .= '</dl>';
 		print $r;
-		return true;
+		return false;
 		//mail('bug_central@1001journals.com', '1001 System Error', $message);
 	}
 	
