@@ -62,18 +62,19 @@ class ControllerFront
 		return array('string'=>self::$requestUri,'array'=>self::$requestA);
 	}
 	
-	public static function getRoute($routes=array())
+	public static function getRoute($custom_routes=array())
 	{
-		// Default routes
+		// Default routes (use these if they are not overridden in the router.php file)
+		$default_routes = array();
 		// Default homepage (index)
-		if (!isset($routes['default_home'])) $routes['default_home'] = array('uri' => "/^\/$/");
+		if (!isset($custom_routes['default_home'])) $default_routes['default_home'] = array('uri' => "/^\/$/");
 		// Default controller
-		if (!isset($routes['default_controller'])) $routes['default_controller'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)$/i");
+		if (!isset($custom_routes['default_controller'])) $default_routes['default_controller'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)$/i");
 		// Default controller+action
-		if (!isset($routes['default_controller_action'])) $routes['default_controller_action'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)\/(?<action>[a-z0-9_-]+)$/i");
+		if (!isset($custom_routes['default_controller_action'])) $default_routes['default_controller_action'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)\/(?<action>[a-z0-9_-]+)$/i");
 		
-		// Prep variables
-		$routes = array_reverse($routes);
+		// Combine default and custom routes
+		$routes = array_merge($default_routes,$custom_routes);
 		
 		// Try to find a match
 		foreach ($routes as $route) {
@@ -90,7 +91,10 @@ class ControllerFront
 					if (!isset($regs['action'])) {
 						$regs['action'] = isset($route['action']) ? $route['action'] : DEFAULT_ACTION;
 					}
-					return $regs;
+					// Only return a found route if the controller exists!
+					if (file_exists(CONTROLLERS . ucfirst($regs['controller']) . 'Controller.php')) {
+						return $regs;
+					}
 				}
 			}
 		}
