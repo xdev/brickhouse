@@ -3,11 +3,9 @@
 class Model
 {	
 	protected $db;
-	protected $route;
 	
-	public function __construct($route)
+	public function __construct()
 	{
-		$this->route = $route;
 		$this->db = AdaptorMysql::getInstance();
 	}
 	

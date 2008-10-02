@@ -12,11 +12,13 @@ class Controller
 	protected $output;
 	protected $view_data;
 		
-	function __construct($route)
+	function __construct($route,$loadmodel=true)
 	{
 		$this->route = $route;
 		$this->view = $this->route['action'];
-		$this->model = $this->loadModel();
+		if($loadmodel){
+			$this->model = $this->loadModel();
+		}
 		
 		// Init layout defaults
 		$this->layout_view = DEFAULT_LAYOUT;

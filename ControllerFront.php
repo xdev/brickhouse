@@ -109,7 +109,6 @@ class ControllerFront
 		
 		// Find a matching route
 		if ($route = self::getRoute($routes)) {
-			//die(print_r($route));
 			//format the file name of the controller - camel case, append Controlller
 			$name = ucfirst($route['controller']) . 'Controller';
 			$file = CONTROLLERS . $name . '.php';
