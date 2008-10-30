@@ -5,29 +5,26 @@
 // Directory splitter
 define('DS', DIRECTORY_SEPARATOR);
 
-// Site/app root (full path)
-define('ROOT',$_SERVER['DOCUMENT_ROOT'] . DS);
-
-// Path to application (relative to index.php)
-define('APP',basename(dirname(__FILE__)) . DS);
+// Path to application (full path)
+define('APP',dirname(__FILE__) . DS);
 
 // Path to application config (full path)
-define('CONFIG',ROOT . APP . 'config' . DS);
+define('CONFIG',APP . 'config' . DS);
 
 // Path to application controllers (full path)
-define('MODELS',ROOT . APP . 'models' . DS);
+define('MODELS',APP . 'models' . DS);
 
 // Path to application views (full path)
-define('VIEWS',ROOT. APP . 'views' . DS);
+define('VIEWS',APP . 'views' . DS);
 
 // Path to application controllers (full path)
-define('CONTROLLERS',ROOT . APP . 'controllers' . DS);
+define('CONTROLLERS',APP . 'controllers' . DS);
 
-// Path to libraries - relative to index.php
-define('LIB','lib' . DS);
+// Path to libraries (full path)
+define('LIB',dirname(APP) . DS . 'lib' . DS);
 
-// Web root ??? what is this for ???
-define('WEB_ROOT','');
+// Website document root (full path)
+define('HTTPDOCS',$_SERVER['DOCUMENT_ROOT'] . DS);
 
 // Server/domain name with http(s)://
 define('WWW','http' . (@$_SERVER['HTTPS'] ? 's' : '') . '://' . $_SERVER['SERVER_NAME'] . '/');
