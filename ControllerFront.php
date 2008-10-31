@@ -74,7 +74,7 @@ class ControllerFront
 		if (!isset($custom_routes['default_controller_action'])) $default_routes['default_controller_action'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)\/(?<action>[a-z0-9_-]+)$/i");
 		
 		// Combine default and custom routes
-		$routes = array_merge($default_routes,$custom_routes);
+		$routes = array_merge($custom_routes,$default_routes);
 		
 		// Try to find a match
 		foreach ($routes as $route) {
