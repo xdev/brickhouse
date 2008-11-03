@@ -69,9 +69,9 @@ class ControllerFront
 		// Default homepage (index)
 		if (!isset($custom_routes['default_home'])) $default_routes['default_home'] = array('uri' => "/^\/$/");
 		// Default controller
-		if (!isset($custom_routes['default_controller'])) $default_routes['default_controller'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)$/i");
+		if (!isset($custom_routes['default_controller'])) $default_routes['default_controller'] = array('uri' => "/^\/(?P<controller>[a-z0-9_-]+)$/i");
 		// Default controller+action
-		if (!isset($custom_routes['default_controller_action'])) $default_routes['default_controller_action'] = array('uri' => "/^\/(?<controller>[a-z0-9_-]+)\/(?<action>[a-z0-9_-]+)$/i");
+		if (!isset($custom_routes['default_controller_action'])) $default_routes['default_controller_action'] = array('uri' => "/^\/(?P<controller>[a-z0-9_-]+)\/(?P<action>[a-z0-9_-]+)$/i");
 		
 		// Combine default and custom routes
 		$routes = array_merge($custom_routes,$default_routes);
