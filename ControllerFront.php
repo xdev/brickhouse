@@ -81,6 +81,7 @@ class ControllerFront
 			if (preg_match($route['uri'],self::$requestUri,$regs)) {
 				// Make sure match is exact
 				if ($regs[0] == self::$requestUri) {
+					$regs = array_merge($regs,$route);
 					// Set key 'uri' with uri match
 					$regs['uri'] = $regs[0];
 					// Make sure controller is set, or use DEFAULT_CONTROLLER
