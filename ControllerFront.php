@@ -81,7 +81,8 @@ class ControllerFront
 			if (preg_match($route['uri'],self::$requestUri,$regs)) {
 				// Make sure match is exact
 				if ($regs[0] == self::$requestUri) {
-					$regs = array_merge($regs,$route);
+					//Merge and overwrite
+					//$regs = array_merge($regs,$route);
 					// Set key 'uri' with uri match
 					$regs['uri'] = $regs[0];
 					// Make sure controller is set, or use DEFAULT_CONTROLLER
@@ -91,6 +92,14 @@ class ControllerFront
 					// Make sure action is set, or use DEFAULT_ACTION
 					if (!isset($regs['action'])) {
 						$regs['action'] = isset($route['action']) ? $route['action'] : DEFAULT_ACTION;
+					}
+					// Find diffs and merge - don't overwrite!
+					if($diffs = array_diff_assoc($route, $regs)){
+						foreach($diffs as $key=>$value){
+							if(!array_key_exists($key,$regs)){
+								$regs[$key] = $value;
+							}
+						}
 					}
 					// Only return a found route if the controller exists!
 					if (file_exists(CONTROLLERS . ucfirst($regs['controller']) . 'Controller.php')) {
