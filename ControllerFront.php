@@ -6,6 +6,7 @@ class ControllerFront
 	protected static $instance = null;
 	protected static $requestUri;
 	protected static $requestA;
+	protected static $route;
 
 	private function __construct()
 	{
@@ -62,7 +63,7 @@ class ControllerFront
 		return array('string'=>self::$requestUri,'array'=>self::$requestA);
 	}
 	
-	public static function getRoute($custom_routes=array())
+	private static function findRoute($custom_routes=array())
 	{
 		// Default routes (use these if they are not overridden in the router.php file)
 		$default_routes = array();
@@ -109,7 +110,11 @@ class ControllerFront
 			}
 		}
 	}
-
+	
+	public static function getRoute()
+	{
+		return self::$route;		
+	}
 
 	//needs to do the dispatching here so we can grab entire output and filter with a pre and post render plugin
 	public static function dispatch($routes)
@@ -118,7 +123,8 @@ class ControllerFront
 		$output = '';
 		
 		// Find a matching route
-		if ($route = self::getRoute($routes)) {
+		if ($route = self::findRoute($routes)) {
+			self::$route = $route;
 			//format the file name of the controller - camel case, append Controlller
 			$name = ucfirst($route['controller']) . 'Controller';
 			$file = CONTROLLERS . $name . '.php';
