@@ -164,7 +164,9 @@ class Controller
 		ob_start();
 		// If no layout is set, just spit out the view(s)
 		if (!$this->layout_view) {
-			$r .= $content['main'];
+			if(isset($content['main'])){
+				$r .= $content['main'];
+			}
 		}
 		// If a layout is found, fetch and return it
 		elseif ($this->layout_view && @include $this->layout_file) {
