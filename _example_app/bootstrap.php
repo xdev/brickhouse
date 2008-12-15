@@ -79,7 +79,7 @@ if (isset($GLOBALS['DATABASE'])) {
 }
 
 // Controller
-$controller = ControllerFront::getInstance();
+$controller = _ControllerFront::getInstance();
 
 // Router
 //needs to follow the Front Controller so we can utilize the pre-parsed URI
