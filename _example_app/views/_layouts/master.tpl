@@ -19,7 +19,7 @@
 </div>
 
 <div id="sidebar">
-	<?= $content['sidebar'] ?>
+	
 </div>
 
 </body>

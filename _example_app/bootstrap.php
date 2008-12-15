@@ -41,17 +41,33 @@ require_once LIB . 'Brickhouse' . DS . 'Model.php';
 require_once LIB . 'Brickhouse' . DS . 'ControllerFront.php';
 require_once LIB . 'Brickhouse' . DS . 'Controller.php';
 
+// APP's custom MVC classes
+require_once MODELS      . '_Model.php';
+require_once CONTROLLERS . '_ControllerFront.php';
+require_once CONTROLLERS . '_Controller.php';
+
 // Database classes
 require_once LIB . 'Bobolink' . DS . 'database' . DS . 'Db.interface.php';
 require_once LIB . 'Bobolink' . DS . 'database' . DS . 'AdaptorMysql.class.php';
 
+// Bobolink classes (load any you want to use)
+//require_once LIB . 'Bobolink' . DS . 'email'    . DS . 'EmailProtector.class.php';
+//require_once LIB . 'Bobolink' . DS . 'forms'    . DS . 'Forms.class.php';
+//require_once LIB . 'Bobolink' . DS . 'session'  . DS . 'Session.class.php';
+//require_once LIB . 'Bobolink' . DS . 'utils'    . DS . 'Utils.class.php';
+//require_once LIB . 'Bobolink' . DS . 'xml'      . DS . 'FlashMW.class.php';
+//require_once LIB . 'Bobolink' . DS . 'xml'      . DS . 'XmlToArray.class.php';
+
 
 /* LOAD PLUGINS ---------------------------------------------------------- */
-require_once LIB . 'Brickhouse' . DS . 'plugins' . DS . 'sitemap.php';
-//require_once ROOT . APP . 'plugins' . DS . 'pre_render.php';
+
+require_once APP . 'plugins' . DS . 'pre_render.php';
+require_once APP . 'plugins' . DS . 'post_render.php';
+//require_once LIB . 'Brickhouse' . DS . 'plugins' . DS . 'sitemap.php';
 
 
 /* CONTROLLER/ROUTER ----------------------------------------------------- */
+
 //error handling
 //$error = ErrorHandler::getInstance();
 set_error_handler(array("ErrorHandler","capture"));
@@ -74,20 +90,6 @@ $routes = array();
 
 //pull in predefined routes
 require_once CONFIG . 'routes.php';
-
-//run sitemap plugin
-$q = plugin__sitemap(array('uri'=>$uri,'table'=>'pages','parent_id'=>'parent_id','slug'=>'slug','db'=>$db));
-
-if(is_array($q)){
-	//overrite existing route to prevent error, could be written simpler if using pattern as array key, later perhaps
-	for($i=0;$i<count($routes);$i++){
-		if($router[$i]['route'] == "^" . $uA['string'] . "$"){
-			array_splice($routes,$i,1);
-		}
-	}
-	//this is custom for this instance, so use controller and action info from the db, not the config
-	$routes[] = array('route'=>"^" . $uA['string'] . "$",'controller'=>$q['controller'],'action'=>$q['action']);
-}
 
 
 /* DISPATCH -------------------------------------------------------------- */

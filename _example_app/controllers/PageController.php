@@ -9,8 +9,13 @@
  * @author Joshua Rudd
  **/
 
-class PageController extends Controller
+class PageController extends _Controller
 {
+	
+	//public function __construct($route)
+	//{
+	//	parent::__construct($route);
+	//}
 	
 	public function Index()
 	{
@@ -26,19 +31,3 @@ class PageController extends Controller
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

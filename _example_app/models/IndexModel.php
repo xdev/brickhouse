@@ -1,11 +1,11 @@
 <?php
 
-class IndexModel extends Model
+class IndexModel extends _Model
 {
 	
 	public function __construct()
 	{
-		// Do something!
+		parent::__construct();
 	}
 	
 	public function sample()
