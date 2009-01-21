@@ -139,6 +139,19 @@ class Controller
 	
 	
 	/**
+	 * Returns output of container (set with view())
+	 *
+	 * @return string
+	 * @author Joshua Rudd
+	 **/
+	protected function container($container = null)
+	{
+		return isset($this->output[$container]) ? $this->output[$container] : null;
+	}
+	
+	
+	
+	/**
 	 * Combines layout and view(s) and prints final output
 	 *
 	 * @return string
