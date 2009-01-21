@@ -15,11 +15,11 @@
 <body>
 
 <div id="main">
-	<?= $content['main'] ?>
+	<?= $this->container('main') ?>
 </div>
 
 <div id="sidebar">
-	
+	<?= $this->container('sidebar') ?>
 </div>
 
 </body>
