@@ -52,7 +52,7 @@ class Controller
 		else {
 			$file = VIEWS . $folder . DS . $view . $extension;
 		}
-		return $file;
+		return file_exists($file) ? $file : false;
 	}
 	
 	
@@ -71,22 +71,26 @@ class Controller
 		$view_data      = isset($args['data'])      ? $args['data']      : null;
 		
 		// Set view file
-		$view_file = $this->getViewFile($view_view);
+		if ($view_file = $this->getViewFile($view_view)) {
 		
-		// Create variables for view from data array
-		if ($view_data) foreach ($view_data as $dataKey => $dataValue) {
-			${$dataKey} = $dataValue;
-		}
+			// Create variables for view from data array
+			if ($view_data) foreach ($view_data as $dataKey => $dataValue) {
+				${$dataKey} = $dataValue;
+			}
 		
-		// Fetch view and store it for output
-		ob_start();
-		if (@include $view_file) {
-			if (!isset($this->output[$view_container])) $this->output[$view_container] = '';
-			$this->output[$view_container] .= ob_get_contents();
+			// Fetch view and store it for output
+			ob_start();
+			if (@include $view_file) {
+				if (!isset($this->output[$view_container])) $this->output[$view_container] = '';
+				$this->output[$view_container] .= ob_get_contents();
+			} else {
+				ErrorHandler::message($view_file . '.' . VIEW_EXTENSION . ' not found!');
+			}
+			ob_end_clean();
+			return $view_file;
 		} else {
-			ErrorHandler::message($view_file . '.' . VIEW_EXTENSION . ' not found!');
+			return false;
 		}
-		ob_end_clean();
 	}
 	
 	
